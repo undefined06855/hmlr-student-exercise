@@ -12,11 +12,7 @@ design system used in the application.
 """
 
 from flask_wtf import FlaskForm
-from govuk_frontend_wtf.wtforms_widgets import (
-    GovSubmitInput,
-    GovTextInput,
-    GovCheckboxInput
-)
+from govuk_frontend_wtf.wtforms_widgets import GovSubmitInput, GovTextInput, GovCheckboxInput
 from wtforms.fields import StringField, SubmitField, BooleanField
 from wtforms.validators import InputRequired, ValidationError
 
@@ -83,6 +79,7 @@ class EntryForm(FlaskForm):
         existing = Entry.query.filter_by(register_id=self.register_id, name=field.data).first()
         if existing:
             raise ValidationError("Name already in use")
+
 
 class EntryDeleteForm(FlaskForm):
     """
