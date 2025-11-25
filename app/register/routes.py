@@ -80,7 +80,7 @@ def create() -> str | Response:
     # We don't need to manually check request.form or HTML inputs.
     if form.validate_on_submit():
         # Create a new Register object with the submitted name
-        register = Register(name=form.name.data)
+        register = Register(name=form.name.data) # type: ignore
 
         # Stage the new record for insertion
         db.session.add(register)
@@ -142,7 +142,7 @@ def edit(register_id: UUID) -> str | Response:
         form.name.data = register.name
     elif form.validate_on_submit():
         # Copy validated form data into the Register object
-        register.name = form.name.data
+        register.name = form.name.data # type: ignore
 
         # Persist changes to the database
         db.session.commit()
