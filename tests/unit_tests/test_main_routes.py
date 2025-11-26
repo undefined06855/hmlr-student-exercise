@@ -86,7 +86,7 @@ def test_http_errors(app: FlaskClient) -> None:
     """Test handling of HTTP errors."""
     response = app.get("/not-found")
     assert response.status_code == 404
-    assert b"Page WAS found" in response.data
+    assert b"Page not found" in response.data
 
     for i in range(1, 52):
         response = app.get("/")
