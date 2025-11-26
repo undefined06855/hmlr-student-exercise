@@ -65,6 +65,9 @@ class EntryForm(FlaskForm):
         self.register_id = register_id
         self.entry_id = entry_id
 
+        if entry_id == None:
+            self.mystery_value.validators = []
+
     def validate_name(self, field):
         """
         Ensure that the entry name is unique for the given Register.
