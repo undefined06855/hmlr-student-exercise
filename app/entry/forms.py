@@ -12,8 +12,8 @@ design system used in the application.
 """
 
 from flask_wtf import FlaskForm
-from govuk_frontend_wtf.wtforms_widgets import GovSubmitInput, GovTextInput, GovCheckboxInput
-from wtforms.fields import StringField, SubmitField, BooleanField
+from govuk_frontend_wtf.wtforms_widgets import GovCheckboxInput, GovSubmitInput, GovTextInput
+from wtforms.fields import BooleanField, StringField, SubmitField
 from wtforms.validators import InputRequired, ValidationError
 
 from app.models import Entry
