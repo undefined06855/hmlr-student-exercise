@@ -13,7 +13,7 @@ design system used in the application.
 
 from flask_wtf import FlaskForm
 from govuk_frontend_wtf.wtforms_widgets import GovCheckboxInput, GovSubmitInput, GovTextInput
-from wtforms.fields import BooleanField, StringField, SubmitField, IntegerField
+from wtforms.fields import BooleanField, IntegerField, StringField, SubmitField
 from wtforms.validators import InputRequired, ValidationError
 
 from app.models import Entry
@@ -54,7 +54,7 @@ class EntryForm(FlaskForm):
     mystery_value = StringField(
         "Mystery Value",
         widget=GovTextInput("number"),
-        validators=[InputRequired(message="GIVE ME A MYSTERY VALUE!!!!!!!!!!!")]
+        validators=[InputRequired(message="GIVE ME A MYSTERY VALUE!!!!!!!!!!!")],
     )
 
     # A standard GOV.UK-styled submit button.

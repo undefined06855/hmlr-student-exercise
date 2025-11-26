@@ -14,6 +14,7 @@ Notes for Students:
 """
 
 import uuid
+from random import randint
 from typing import TYPE_CHECKING, List
 
 from sqlalchemy import ForeignKey, UniqueConstraint
@@ -23,8 +24,6 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app import db
-
-from random import randint
 
 # TYPE_CHECKING is used to avoid circular import problems when
 # using type hints in Python. It allows hints to be checked only
@@ -111,10 +110,7 @@ class Entry(Model):
     )
 
     mystery_number: Mapped[int] = mapped_column(
-        nullable=False,
-        unique=False,
-        index=False,
-        default=lambda: randint(-10, 100)
+        nullable=False, unique=False, index=False, default=lambda: randint(-10, 100)
     )
 
     # Foreign keys
