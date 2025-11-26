@@ -17,6 +17,8 @@
     {{ super() }}
     <span class="govuk-caption-l">Entry</span>
     <h1 class="govuk-heading-l">{{ entry.name }}</h1>
+    <div class="govuk-body">mystery number: {{ entry.mystery_number }}!</div>
+    <div class="govuk-body">nonexistent: {{ entry.AAAAAAAAAAAAAAAA }}!</div>
     <div class="govuk-button-group">
       {{ govukButton({
         'text': "Edit entry",

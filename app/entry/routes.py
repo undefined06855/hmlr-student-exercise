@@ -80,14 +80,16 @@ def edit(entry_id: UUID, register_id: UUID) -> str | Response:
     """
     # Load the entry or show 404 if it doesn't exist
     entry: Entry = db.get_or_404(Entry, entry_id)
-    form = EntryForm(register_id=register_id)
+    form = EntryForm(register_id=register_id, entry_id=entry_id)
 
     if request.method == "GET":
         # Pre-fill the form with current data so user can edit it
         form.name.data = entry.name
+        form.mystery_value.data = entry.mystery_number
     elif form.validate_on_submit():
         # Copy validated form data into the Entry object
         entry.name = form.name.data  # type: ignore
+        entry.mystery_number = int(float(form.mystery_value.data))  # type: ignore
 
         # Persist changes to the database
         db.session.commit()

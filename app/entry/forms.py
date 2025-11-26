@@ -13,7 +13,7 @@ design system used in the application.
 
 from flask_wtf import FlaskForm
 from govuk_frontend_wtf.wtforms_widgets import GovCheckboxInput, GovSubmitInput, GovTextInput
-from wtforms.fields import BooleanField, StringField, SubmitField
+from wtforms.fields import BooleanField, StringField, SubmitField, IntegerField
 from wtforms.validators import InputRequired, ValidationError
 
 from app.models import Entry
@@ -28,6 +28,9 @@ class EntryForm(FlaskForm):
     name : StringField
         The human-readable name for the Entry. This is required
         and must be unique across all Entries for a given Entry.
+    mystery_value : StringField
+        Some mystery number on the Entry. Who knows what this
+        is used for.
     submit : SubmitField
         A standard submit button.
 
@@ -48,12 +51,19 @@ class EntryForm(FlaskForm):
         validators=[InputRequired(message="Enter a name")],
     )
 
+    mystery_value = StringField(
+        "Mystery Value",
+        widget=GovTextInput("number"),
+        validators=[InputRequired(message="GIVE ME A MYSTERY VALUE!!!!!!!!!!!")]
+    )
+
     # A standard GOV.UK-styled submit button.
     submit: SubmitField = SubmitField("Save", widget=GovSubmitInput())
 
-    def __init__(self, register_id, **kwargs):
+    def __init__(self, register_id, entry_id, **kwargs):
         super().__init__(**kwargs)
         self.register_id = register_id
+        self.entry_id = entry_id
 
     def validate_name(self, field):
         """
@@ -77,7 +87,7 @@ class EntryForm(FlaskForm):
           and the error message is displayed to the user.
         """
         existing = Entry.query.filter_by(register_id=self.register_id, name=field.data).first()
-        if existing:
+        if existing and existing.id != self.entry_id:
             raise ValidationError("Name already in use")
 
 

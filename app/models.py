@@ -24,6 +24,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app import db
 
+from random import randint
+
 # TYPE_CHECKING is used to avoid circular import problems when
 # using type hints in Python. It allows hints to be checked only
 # during static analysis, not at runtime.
@@ -106,6 +108,13 @@ class Entry(Model):
         nullable=False,  # Cannot be empty
         unique=False,  # Entry names are not globally unique, but should be unique on a given register
         index=True,  # Database index for faster search
+    )
+
+    mystery_number: Mapped[int] = mapped_column(
+        nullable=False,
+        unique=False,
+        index=False,
+        default=lambda: randint(-10, 100)
     )
 
     # Foreign keys
