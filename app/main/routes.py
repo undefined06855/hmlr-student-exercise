@@ -9,7 +9,7 @@ from flask import (
     request,
     url_for,
 )
-from flask_wtf.csrf import CSRFError
+from flask_wtf.csrf import CSRFError  # type: ignore
 from werkzeug.exceptions import HTTPException
 
 from app.main import bp
