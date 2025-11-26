@@ -85,7 +85,7 @@ def edit(entry_id: UUID, register_id: UUID) -> str | Response:
     if request.method == "GET":
         # Pre-fill the form with current data so user can edit it
         form.name.data = entry.name
-        form.mystery_value.data = entry.mystery_number
+        form.mystery_value.data = str(entry.mystery_number)
     elif form.validate_on_submit():
         # Copy validated form data into the Entry object
         entry.name = form.name.data  # type: ignore
