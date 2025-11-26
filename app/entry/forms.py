@@ -60,7 +60,7 @@ class EntryForm(FlaskForm):
     # A standard GOV.UK-styled submit button.
     submit: SubmitField = SubmitField("Save", widget=GovSubmitInput())
 
-    def __init__(self, register_id, entry_id, **kwargs):
+    def __init__(self, register_id, entry_id = None, **kwargs):
         super().__init__(**kwargs)
         self.register_id = register_id
         self.entry_id = entry_id
@@ -87,7 +87,7 @@ class EntryForm(FlaskForm):
           and the error message is displayed to the user.
         """
         existing = Entry.query.filter_by(register_id=self.register_id, name=field.data).first()
-        if existing and existing.id != self.entry_id:
+        if existing and (self.entry_id and existing.id != self.entry_id):
             raise ValidationError("Name already in use")
 
 
