@@ -132,7 +132,7 @@ class Driver:
 
         self._find_and_click(By.LINK_TEXT, "Delete register")
 
-    def confirm_deletion_requires_confirmation(self, name):
+    def confirm_register_deletion_requires_confirmation(self, name):
         confirmation_prompt = self.browser.find_element(
             By.XPATH,
             f"//*[contains(text(),'Are you sure you want to delete the {name} register?')]",
@@ -142,7 +142,7 @@ class Driver:
     def cancel_register_deletion(self, name):
         self._find_and_click(By.LINK_TEXT, "Cancel")
 
-    def confirm_register_deletion(self, alias):
+    def confirm_register_deletion(self, name):
         confirm_checkbox = self.browser.find_element(By.NAME, "confirm")
         confirm_checkbox.click()
 
@@ -193,3 +193,70 @@ class Driver:
         self._navigate_to_registers()
         self._view_register(register)
         self._view_entry(entry_name)
+
+    def update_existing_entry(self, register, current_name, new_name):
+        self._navigate_to_registers()
+        self._view_register(register)
+        self._view_entry(current_name)
+
+        self._find_and_click(By.LINK_TEXT, "Edit entry")
+
+        name_field = self.browser.find_element(By.NAME, "name")
+        assert name_field.get_attribute("value") == current_name
+
+        name_field.clear()
+        name_field.send_keys(new_name)
+
+        self._find_and_click(By.NAME, "submit")
+
+    def confirm_entry_updated(self, register, old_name, new_name):
+        updated_message = self.browser.find_element(By.XPATH, "//*[contains(text(),'Successfully updated entry')]")
+        assert updated_message is not None, "Updated message not found"
+
+        self._navigate_to_registers()
+        self._view_register(register)
+
+        try:
+            self.browser.find_element(By.XPATH, f"//*[contains(text(), '{old_name}')]")
+            raise AssertionError("Entry with old name still exists")
+        except NoSuchElementException:
+            pass
+
+        new_entry = self.browser.find_element(By.XPATH, f"//*[contains(text(), '{new_name}')]")
+        assert new_entry is not None, "Entry with new name not found"
+
+    def delete_existing_entry(self, register, entry_name):
+        self._navigate_to_registers()
+        self._view_register(register)
+        self._view_entry(entry_name)
+
+        self._find_and_click(By.LINK_TEXT, "Delete entry")
+
+    def confirm_entry_deletion_requires_confirmation(self, name):
+        confirmation_prompt = self.browser.find_element(
+            By.XPATH,
+            f"//*[contains(text(),'Are you sure you want to delete the {name} entry?')]",
+        )
+        assert confirmation_prompt is not None, "Confirmation prompt not found"
+
+    def confirm_entry_deletion(self, register, entry_name):
+        confirm_checkbox = self.browser.find_element(By.NAME, "confirm")
+        confirm_checkbox.click()
+
+        self._find_and_click(By.NAME, "submit")
+
+    def cancel_entry_deletion(self, register, entry_name):
+        self._find_and_click(By.LINK_TEXT, "Cancel")
+
+    def confirm_entry_deleted(self, register, entry_name):
+        deleted_message = self.browser.find_element(By.XPATH, "//*[contains(text(),'Successfully deleted entry')]")
+        assert deleted_message is not None, "Deleted message not found"
+
+        self._navigate_to_registers()
+        self._view_register(register)
+
+        try:
+            self.browser.find_element(By.XPATH, f"//*[contains(text(), '{entry_name}')]")
+            raise AssertionError("Deleted entry still exists")
+        except NoSuchElementException:
+            pass

@@ -93,7 +93,7 @@ def edit(entry_id: UUID, register_id: UUID) -> str | Response:
         db.session.commit()
 
         flash("Successfully updated entry", "success")
-        return redirect(url_for("register.entry.view", entry_id=entry.id, register_id=entry.register_id))
+        return redirect(url_for("register.view", register_id=entry.register_id))
 
     # Render the form page for GET requests or failed validation
     return render_template("entry/edit.html", entry=entry, form=form)
