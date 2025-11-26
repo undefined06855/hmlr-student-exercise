@@ -183,5 +183,9 @@ def delete(register_id: UUID) -> str | Response:
         flash("Successfully deleted register", "success")
         return redirect(url_for("register.index"))
 
+    if len(register.entries) != 0:
+        flash("THE REGISTER ISN'T EMPTY DON'T DELETE IT!!!!!!!!", "warning")
+        return render_template("register/view.html", register=register)
+
     # Render the confirmation page if GET request or validation fails
     return render_template("register/delete.html", register=register, form=form)
