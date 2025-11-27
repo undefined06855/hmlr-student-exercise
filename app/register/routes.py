@@ -135,7 +135,7 @@ def edit(register_id: UUID) -> str | Response:
     """
     # Load the register or show 404 if it doesn't exist
     register: Register = db.get_or_404(Register, register_id)
-    form = RegisterForm()
+    form = RegisterForm(register_id)
 
     if request.method == "GET":
         # Pre-fill the form with current data so user can edit it
@@ -184,7 +184,7 @@ def delete(register_id: UUID) -> str | Response:
         return redirect(url_for("register.index"))
 
     if len(register.entries) != 0:
-        flash("THE REGISTER ISN'T EMPTY DON'T DELETE IT!!!!!!!!", "warning")
+        flash("The register cannot be deleted as it is not empty!", "warning")
         return render_template("register/view.html", register=register)
 
     # Render the confirmation page if GET request or validation fails

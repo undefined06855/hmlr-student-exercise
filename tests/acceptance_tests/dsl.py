@@ -81,6 +81,10 @@ class Dsl:
         alias = self._decode_alias(name)
         self.driver.confirm_register_deleted(alias)
 
+    def confirm_register_deletion_prevention_message(self, name=DEFAULT_REGISTER_NAME):
+        alias = self._decode_alias(name)
+        self.driver.confirm_register_deletion_prevention_message(alias)
+
     def confirm_register_exists(self, name=DEFAULT_REGISTER_NAME):
         alias = self._decode_alias(name)
         self.driver.confirm_register_exists(alias)

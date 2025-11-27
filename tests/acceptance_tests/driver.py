@@ -160,6 +160,10 @@ class Driver:
         except NoSuchElementException:
             pass
 
+    def confirm_register_deletion_prevention_message(self, register):
+        message = self.browser.find_element(By.XPATH, "//*[contains(text(),'The register cannot be deleted as it is not empty!')]")
+        assert message is not None, "Deleted message not found"
+
     def add_entry_to_register(self, register, entry_name):
         self._navigate_to_registers()
         self._view_register(register)

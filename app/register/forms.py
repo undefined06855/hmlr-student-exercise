@@ -55,6 +55,10 @@ class RegisterForm(FlaskForm):
     # A standard GOV.UK-styled submit button.
     submit: SubmitField = SubmitField("Save", widget=GovSubmitInput())
 
+    def __init__(self, register_id=None, **kwargs):
+        super().__init__(**kwargs)
+        self.register_id = register_id
+
     def validate_name(self, field):
         """
         Ensure that the register name is unique.
@@ -75,10 +79,20 @@ class RegisterForm(FlaskForm):
         - `first()` returns the first matching Register or None.
         - Raising a ValidationError tells WTForms that this field is invalid,
           and the error message is displayed to the user.
+        - If there's no register ID, no special handling is applied when
+          checking for errors.
+        - If there is a register ID, it checks that the existing register
+          matched by name has a different ID before throwing an error.
         """
+
         existing = Register.query.filter_by(name=field.data).first()
-        if existing:
-            raise ValidationError("Name already in use")
+
+        if self.register_id == None:
+            if existing:
+                raise ValidationError("Name already in use")
+        else:
+            if existing and existing.id != self.register_id:
+                raise ValidationError("Name already in use")
 
 
 class RegisterDeleteForm(FlaskForm):

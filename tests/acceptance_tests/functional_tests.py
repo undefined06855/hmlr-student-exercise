@@ -63,6 +63,13 @@ class FunctionalTests(TestCase):
         self.dsl.cancel_register_deletion()
         self.dsl.confirm_register_exists()
 
+    def test_cannot_delete_nonempty_register(self):
+        self.dsl.ensure_existing_register()
+        self.dsl.ensure_existing_entry()
+        self.dsl.delete_existing_register()
+        self.dsl.confirm_register_deletion_prevention_message()
+        self.dsl.confirm_register_exists()
+
     def test_add_entry_name_required(self):
         self.dsl.ensure_existing_register()
         self.dsl.add_entry_to_register(entry_name="")
