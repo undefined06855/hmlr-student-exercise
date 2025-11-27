@@ -38,7 +38,7 @@
     <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
       {% for entry in register.entries %}
       <li>
-        <a class="govuk-link" href="{{ url_for('register.entry.view', register_id=register.id, entry_id=entry.id) }}">{{ entry.name }}</a>
+        <a class="govuk-link" href="{{ url_for('register.entry.view', register_id=register.id, entry_id=entry.id) }}">{{ entry.name }} - {{ entry.mystery_number }}</a>
       </li>
       {% endfor %}
     </ul>
