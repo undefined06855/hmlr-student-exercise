@@ -28,7 +28,7 @@ class Driver:
         assert page_heading.text == name
 
     def _view_entry(self, entry_name):
-        self._find_and_click(By.LINK_TEXT, entry_name)
+        self._find_and_click(By.PARTIAL_LINK_TEXT, entry_name)
 
         page_heading = self.browser.find_element(By.TAG_NAME, "h1")
         assert page_heading.text == entry_name
